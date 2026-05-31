@@ -4,16 +4,16 @@ services:
     container_name: mla_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Tiger   # ✅ Tiger
+      MYSQL_ROOT_PASSWORD: Tiger   
       MYSQL_DATABASE: mla_crud_db
       MYSQL_USER: mla_user
-      MYSQL_PASSWORD: Tiger        # ✅ Tiger
+      MYSQL_PASSWORD: Tiger        
     ports:
       - "3309:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pTiger"]  # ✅ -pTiger
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pTiger"]  
       timeout: 20s
       retries: 10
       interval: 5s

@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-your-secret-key-here'
 DEBUG = True
-ALLOWED_HOSTS = ['*']  # ✅ Docker साठी सर्व allow
+ALLOWED_HOSTS = ['*']  
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,15 +49,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mlabackend.wsgi.application'
 
-# ✅ Docker साठी बरोबर Database Configuration
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mla_crud_db',
         'USER': 'root',
-        'PASSWORD': 'Tiger',   # ✅ तुमचा password
-        'HOST': 'db',          # ✅ Docker container नाव
-        'PORT': '3306',        # ✅ container internal port
+        'PASSWORD': 'Tiger',   
+        'HOST': 'db',          
+        'PORT': '3306',       
     }
 }
 
