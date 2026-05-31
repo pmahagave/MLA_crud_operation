@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">{{ isEditMode ? 'Edit Student' : 'Add New Student' }}</h3>
+    </div>
+    <div class="card-body">
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name *</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+          <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="text-danger">
+            Name is required (minimum 2 characters)
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email *</label>
+          <input type="email" class="form-control" id="email" formControlName="email">
+          <div *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" class="text-danger">
+            Valid email is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="phone_number" class="form-label">Phone Number *</label>
+          <input type="text" class="form-control" id="phone_number" formControlName="phone_number">
+          <div *ngIf="studentForm.get('phone_number')?.invalid && studentForm.get('phone_number')?.touched" class="text-danger">
+            10-digit phone number is required
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="studentForm.invalid || loading">
+            {{ loading ? 'Saving...' : (isEditMode ? 'Update Student' : 'Save Student') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
