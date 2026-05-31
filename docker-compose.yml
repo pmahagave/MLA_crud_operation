@@ -1,0 +1,62 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mla_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Tiger   # ✅ Tiger
+      MYSQL_DATABASE: mla_crud_db
+      MYSQL_USER: mla_user
+      MYSQL_PASSWORD: Tiger        # ✅ Tiger
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pTiger"]  # ✅ -pTiger
+      timeout: 20s
+      retries: 10
+      interval: 5s
+    networks:
+      - mla_network
+
+  backend:
+    build: ./backend
+    container_name: mla_backend
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      MYSQL_DATABASE: mla_crud_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Tiger   # ✅ Tiger
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    networks:
+      - mla_network
+
+  frontend:
+    build: ./frontend
+    container_name: mla_frontend
+    restart: always
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - mla_network
+
+volumes:
+  mysql_data:
+
+networks:
+  mla_network:
+    driver: bridge
